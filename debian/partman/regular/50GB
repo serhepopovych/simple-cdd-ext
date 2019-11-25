@@ -1,0 +1,39 @@
+simple-cdd/partman/regular/50GB ::
+  1 1 1 free
+    $iflabel{ gpt }
+    $reusemethod{ }
+    method{ biosgrub }
+  .
+  512 512 512 fat32
+    $iflabel{ gpt }
+    $reusemethod{ }
+    method{ efi } format{ }
+    mountpoint{ /boot/efi }
+  .
+  1024 1024 1024 ext2
+    $defaultignore{ }
+    method{ format } format{ }
+    use_filesystem{ } filesystem{ ext2 }
+    mountpoint{ /boot }
+  .
+  8192 200% 200% linux-swap
+    method{ swap } format{ } label{ SWAP }
+  .
+  20480 25600 25600 $default_filesystem
+    method{ format } format{ } label{ ROOT }
+    use_filesystem{ } $default_filesystem{ }
+    mountpoint{ / }
+  .
+  5120 10240 10240 $default_filesystem
+    method{ format } format{ } label{ VAR }
+    use_filesystem{ } $default_filesystem{ }
+    mountpoint{ /var }
+  .
+  10240 20480 20480 $default_filesystem
+    method{ format } format{ } label{ HOME }
+    use_filesystem{ } $default_filesystem{ }
+    mountpoint{ /home }
+  .
+  128 12800000 -1 $default_filesystem
+    method{ keep }
+  .

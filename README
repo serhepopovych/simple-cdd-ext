@@ -1,0 +1,26 @@
+This is stub README file for project. It should be replaced with real later.
+
+Initially project aim is to extend debian-installer environment with support
+for partman disk profiles given at command line (e.g. simple-cdd/partman=10GB),
+tiny storage installation (e.g. 1GB) using btrfs mixed data and metadata mode
+with enabled compression, installation to btrfs subvolume (only single,
+subvol=root), detection of destination drive and network install (e.g. PXE)
+from CD/DVD.
+
+In general simple-cdd-ext is a set of POSIX shell scripts intended to be
+executed in debian-installer environment through system of hooks:
+
+    preseed/run              # main, fetched from same source as preseed
+    preseed/early_command
+    preseed/late_command
+
+    partman/early_command    # just before partitioning, all components loaded
+
+These hooks used for integration with this extension. User specific actions to
+configure debian-installer environment or perform specific actions on
+installed system can be added to early_command.sh and late_command.sh helpers.
+
+Now project evolves to separate subproject to make it possible for reuse by
+other distributions like CentOS and Ubuntu. However name is retained to show
+it's origins of simple-cdd helper. That support, among with updated README
+file contents, should come later.

@@ -1,0 +1,31 @@
+simple-cdd/partman/btrfs/20GB ::
+  1 1 1 free
+    $iflabel{ gpt }
+    $reusemethod{ }
+    method{ biosgrub }
+  .
+  256 256 256 free
+    $iflabel{ gpt }
+    $reusemethod{ }
+    method{ efi } format{ }
+    mountpoint{ /boot/efi }
+  .
+  512 512 512 ext2
+    method{ format } format{ }
+    use_filesystem{ } filesystem{ ext2 }
+    mountpoint{ /boot }
+  .
+  12228 20480 20480 btrfs
+    method{ format } format{ }
+    use_filesystem{ } filesystem{ btrfs }
+    mountpoint{ / }
+    options/subvol=root{ subvol=root }
+    options/compress{ compress }
+    options/noatime{ noatime }
+  .
+  4096 100% 4096+%50 linux-swap
+    method{ swap } format{ }
+  .
+  1 1000000000 -1 $default_filesystem
+    method{ keep }
+  .

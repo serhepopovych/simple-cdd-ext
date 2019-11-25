@@ -1,0 +1,20 @@
+simple-cdd/partman/btrfs/1GB ::
+  1 1 1 free
+    $iflabel{ gpt }
+    $reusemethod{ }
+    method{ biosgrub }
+  .
+  128 128 128 fat32
+    $iflabel{ gpt }
+    $reusemethod{ }
+    method{ efi } format{ }
+    mountpoint{ /boot/efi }
+  .
+  812 1000 2000 btrfs
+    method{ format } format{ }
+    use_filesystem{ } filesystem{ btrfs }
+    mountpoint{ / }
+    options/subvol=root{ subvol=root }
+    options/compress{ compress }
+    options/noatime{ noatime }
+  .
