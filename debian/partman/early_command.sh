@@ -18,6 +18,12 @@ sed -i '/usr/sbin/debootstrap' \
         i\
 	required=$(without "$required" "$EXCLUDE")'
 
+## Patch  to avoid forcing apt-getup/mirror/error Retry with
+## respect to default value from template or preseeded by the user.
+
+sed -i '/usr/lib/apt-setup/generators/50mirror' \
+    -e '/^		db_set apt-setup\/mirror\/error Retry$/d'
+
 ## Patch /usr/lib/apt-setup/generators/01setup to add apt(8)
 ## config file that disables Release file expiration checks.
 
