@@ -31,6 +31,11 @@ sed -i '/usr/lib/apt-setup/generators/01setup' \
 cat >/target/etc/apt/apt.conf.d/9a-check-valid-until <<_EOF\
 // Disable Release file expiry checks\
 Acquire::Check-Valid-Until false;\
+_EOF\
+# no Release.gpg checks (github::simple-cdd-meta issue #5)\
+cat >/target/etc/apt/apt.conf.d/9b-allow-insecure-repositories <<_EOF\
+// Allow unsigned repositories\
+Acquire::AllowInsecureRepositories true;\
 _EOF'
 
 ## Process *.excludes
