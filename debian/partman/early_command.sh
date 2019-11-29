@@ -24,6 +24,9 @@ sed -i '/usr/sbin/debootstrap' \
 sed -i '/usr/lib/apt-setup/generators/50mirror' \
     -e '/^		db_set apt-setup\/mirror\/error Retry$/d'
 
+sed -i '/usr/lib/apt-setup/generators/60local' \
+    -e '/^				db_set apt-setup\/local\/key-error Retry$/d'
+
 ## Patch /usr/lib/apt-setup/generators/01setup to add apt(8)
 ## config file that disables Release file expiration checks.
 
