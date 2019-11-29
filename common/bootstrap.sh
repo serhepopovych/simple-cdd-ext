@@ -108,6 +108,62 @@ get_cmdline_var()
     echo "$val"
 }
 
+# Usage: split_url <url>
+split_url()
+{
+    local func="${FUNCNAME:-split_url}"
+
+    local url="${1:?missing 1st arg to ${func}() <url>}"
+
+    local method host dir
+
+    if [ -z "${url##*://*}" ]; then
+        method="${url%%://*}"
+
+        dir="${url#*://}"
+        host="${dir%%/*}"
+
+        dir="${dir#$host}"
+    else
+        method='file'
+
+        dir="$url"
+
+        host=''
+    fi
+
+    dir="/$(echo "$dir" | sed -e 's/\(^\/\+\|\/\+$\)//g')"
+
+    echo "method='$method' host='$host' dir='$dir'"
+}
+
+# Usage: read_profiles_conf <cb>
+read_profiles_conf()
+{
+    if [ -n "${__in_installer_env__+x}" ]; then
+        # Protect against of "$@" modification by "set" by foregin code
+        read_profiles_conf__include() { [ ! -r "$1" ] || . "$1"; }
+
+        cd "$SIMPLE_CDD_DIR"
+
+        local p
+        for p in $SIMPLE_CDD_PROFILES; do
+            read_profiles_conf__include "$p.conf"
+        done
+
+        local cb="$1"
+        shift
+
+        "$cb" "$@"
+    else
+        local func="${FUNCNAME:-read_profiles_conf}"
+
+        local cb="${1:?missing 1st arg to ${func}() <cb>}"
+
+        eval "$(__in_installer_env__=1 && read_profiles_conf "$@")"
+    fi
+}
+
 ## Install default exit handler
 
 exit_handler()
