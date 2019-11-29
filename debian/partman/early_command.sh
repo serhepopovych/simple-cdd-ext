@@ -47,6 +47,16 @@ cat >/target/etc/apt/apt.conf.d/9b-allow-insecure-repositories <<_EOF\
 Acquire::AllowInsecureRepositories true;\
 _EOF'
 
+## Patch /usr/lib/apt-setup/generators/* to silently ignore mirror
+## verification errors as these are not important at all.
+
+for f in '91security' '92updates' '93backports'; do
+    f="/usr/lib/apt-setup/generators/$f"
+    [ -r "$f" ] || continue
+    sed -i "$f" \
+        -e '/^		db_subst apt-setup\/service-failed HOST "\$host"$/,/^		fi$/ d'
+done
+
 ## Process *.excludes
 
 val="$(debconf-get 'base-installer/excludes')"
