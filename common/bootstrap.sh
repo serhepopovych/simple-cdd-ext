@@ -164,6 +164,22 @@ read_profiles_conf()
     fi
 }
 
+# Usage: valid_domain <name>
+valid_domain()
+{
+    local name="$1"
+    local len=${#name}
+
+    # Shorter than 1 or longer than 63 chars?
+    [ $len -ge 1 -a $len -le 63 ] || return
+    # Has countiguously ".."?
+    [ -n "${name##*..*}" ] || return
+    # Begins or ends with "." or "-"
+    [ -n "${name##[.-]*}" -a -n "${name%%*[-.]}" ] || return
+
+    echo "$name" | grep -q '^[A-Za-z0-9-]\+$'
+}
+
 ## Install default exit handler
 
 exit_handler()
