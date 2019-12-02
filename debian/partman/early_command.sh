@@ -47,12 +47,22 @@ cat >/target/etc/apt/apt.conf.d/9b-allow-insecure-repositories <<_EOF\
 Acquire::AllowInsecureRepositories true;\
 _EOF'
 
-## Patch /usr/lib/apt-setup/generators/* to silently ignore mirror
-## verification errors as these are not important at all.
+## Patch /usr/lib/apt-setup/generators/* to check if network enabled and
+## silently ignore mirror verification errors as these are meaningless at all.
 
-for f in '91security' '92updates' '93backports'; do
+for f in '50mirror' '91security' '92updates' '93backports'; do
     f="/usr/lib/apt-setup/generators/$f"
     [ -r "$f" ] || continue
+
+    # Do not assume that network can only be configured by DHCP
+    sed -i "$f" \
+        -e 'N
+            s/^\(\s*\)if db_get netcfg\/dhcp_options && \\\
+\s\+\[ "\$RET" = "Do not configure the network at this time" \]; then$/\1if db_get netcfg\/enable \&\& [ "$RET" = false ]; then/;t
+            P
+            D'
+
+    # Do not notify about mirror verification errors
     sed -i "$f" \
         -e '/^		db_subst apt-setup\/service-failed HOST "\$host"$/,/^		fi$/ d'
 done
