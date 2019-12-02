@@ -8,6 +8,28 @@
 
 . '/cdrom/simple-cdd/common/bootstrap.sh'
 
+## Helpers and initialization
+
+# Usage: set_selections_add <file> <opt> <dflt_val>
+set_selections_add()
+{
+    local func="${FUNCNAME:-set_selections_add}"
+
+    local file="${1:?missing 1st arg to ${func}() <file>}"
+    local opt="${2:?missing 2d arg to ${func}() <opt>}"
+    local val="${3:?missing 3rd arg to ${func}() <dflt_val>}"
+
+    val="$(get_cmdline_var "$opt" "$val")"
+
+    echo "d-i $opt string $val" >>"$file"
+}
+
+f='/tmp/.simple-cdd-early_command.sh-preseed'
+
+# Make sure preseed file exists and empty. Not deleting
+# it on failure to have information for debugging.
+: >"$f"
+
 ## Preseed mirrors based either on command line options or on profile configs
 
 # Usage: read_profiles_conf_cb__mirrors ...
@@ -24,22 +46,6 @@ read_profiles_conf_cb__mirrors()
 
 read_profiles_conf 'read_profiles_conf_cb__mirrors'
 
-# Usage: set_selections_add <file> <opt> <dflt_val>
-set_selections_add()
-{
-    local func="${FUNCNAME:-set_selections_add}"
-
-    local file="${1:?missing 1st arg to ${func}() <file>}"
-    local opt="${2:?missing 2d arg to ${func}() <opt>}"
-    local val="${3:?missing 3rd arg to ${func}() <val>}"
-
-    val="$(get_cmdline_var "$opt" "$val")"
-
-    echo "d-i $opt string $val" >>"$file"
-}
-
-f='/tmp/.simple-cdd-early_command.sh-preseed'
-
 # Set country explicitly here for manual to make sure choose-mirror
 # does not start selecting mirrors based on country as we provide
 # explicit one either via commandline (prefferred) or via simple-cdd
@@ -51,10 +57,14 @@ set_selections_add "$f" 'mirror/http/hostname'    "${mirror_host}"
 set_selections_add "$f" 'mirror/http/directory'   "${mirror_dir}"
 set_selections_add "$f" 'apt-setup/security_host' "${sec_host}${sec_dir%/}"
 
-# We cannot use debconf-set here since apt-setup/security_host
-# isn't loaded at early command execution as template provided
-# in apt-setup-udeb which neither loaded nor present in initrd.
+## Load generated preseed file
+
+# We cannot use debconf-set here since some preseeds might be
+# unavailable at early command execution as templates provided
+# by corresponding udebs neither loaded nor present in initrd.
 debconf-set-selections "$f"
+
+## Cleanup
 
 rm -f "$f" ||:
 
