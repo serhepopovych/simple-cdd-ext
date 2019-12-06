@@ -139,12 +139,32 @@ fi,'
     exit
 fi
 
+# netcfg
+if [ -z "${all##* --configure *netcfg*}" ]; then
+    # postinst
+    f="$dpkg_info/netcfg.postinst"
+
+    sed -i "$f" \
+        -e 's,^exec netcfg$,lsaddrs() {\
+    # Find both IP and IPv6 addresses of global scope\
+    ip -4 -o address show scope global ||:\
+    ip -6 -o address show scope global ||:\
+}\
+if ! netcfg || ! [ -n "$(lsaddrs)" ]; then\
+    # Disable network entirely if no global address found\
+    . /usr/share/debconf/confmodule\
+    db_set netcfg/enable false\
+fi,'
+    keep
+    exit
+fi
+
 # Tell wrapper to keep this hook script
 exit 1
 _EOF
 }
 
-make_wrapper 'udpkg' 'udpkg_pre' '' '1'
+make_wrapper 'udpkg' 'udpkg_pre' '' '2'
 
 ## Cleanup
 
