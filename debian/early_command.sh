@@ -91,6 +91,36 @@ udpkg_pre()
     cat <<'_EOF'
 # ethdetect
 if [ -z "${all##* --configure *ethdetect*}" ]; then
+    # executable
+    f='/bin/ethdetect'
+
+    sed -i "$f" \
+        -e '/^ethernet_found() {$/!b
+            a\
+	if [ $# -gt 0 ]; then\
+		local delay="$1"\
+\
+		while ! ethernet_found; do\
+			[ $((delay -= 1)) -ge 0 ] || return\
+			# Wait for pending events to be prcessed by userspace.\
+			#\
+			# Has little impact on ethernet interface creation\
+			# that is done by kernel space, but could be useful\
+			# if kernel modules loaded by hw-detect/load_media\
+			update-dev --settle >/dev/null ||:\
+			# There is no better option here as some modules\
+			# (e.g. virtio_net) loaded by hw-detect call known\
+			# to create network device after first call to this\
+			# function making them invisible to ethdetect.\
+			sleep 1\
+		done\
+\
+		return 0\
+	fi\
+'
+    sed -i "$f" \
+        -e 's/^\(while ! ethernet_found\)\(; do\)$/\1 3\2/'
+
     # postinst
     f="$dpkg_info/ethdetect.postinst"
 
