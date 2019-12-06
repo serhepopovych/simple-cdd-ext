@@ -142,7 +142,7 @@ read_profiles_conf()
 {
     if [ -n "${__in_installer_env__+x}" ]; then
         # Protect against of "$@" modification by "set" by foregin code
-        read_profiles_conf__include() { [ ! -r "$1" ] || . "$1"; }
+        read_profiles_conf__include() { [ ! -r "./$1" ] || . "./$1"; }
 
         cd "$SIMPLE_CDD_DIR"
 
