@@ -67,6 +67,12 @@ for f in '50mirror' '91security' '92updates' '93backports'; do
         -e '/^		db_subst apt-setup\/service-failed HOST "\$host"$/,/^		fi$/ d'
 done
 
+## Patch /usr/lib/apt-setup/generators/91security to add /debian-security
+## to http://${apt-setup/security_host} URL when necessary (wheezy, jessie).
+
+sed -i '/usr/lib/apt-setup/generators/91security' \
+    -e 's,\(\(^\|\s\+\)echo\s\+"\S\+\)\(\s*http://\${host}\)/*\(\s\+\|"\),\1\3/debian-security\4,'
+
 ## Process *.excludes
 
 val="$(debconf-get 'base-installer/excludes')"

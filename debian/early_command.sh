@@ -55,7 +55,7 @@ set_selections_add "$f" 'mirror/country'          'manual'
 set_selections_add "$f" 'mirror/protocol'         "${mirror_proto}"
 set_selections_add "$f" 'mirror/http/hostname'    "${mirror_host}"
 set_selections_add "$f" 'mirror/http/directory'   "${mirror_dir}"
-set_selections_add "$f" 'apt-setup/security_host' "${sec_host}${sec_dir%/}"
+set_selections_add "$f" 'apt-setup/security_host' "${sec_host}"
 
 ## Load generated preseed file
 
