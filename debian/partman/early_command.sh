@@ -8,14 +8,6 @@
 
 . '/cdrom/simple-cdd/common/bootstrap.sh'
 
-## Patch base-installer to respect recommended packages (i.e. ones specified
-## with Recommends: tag in package control file) during base system install.
-
-sed -i '/usr/lib/base-installer/library.sh' \
-    -e '/^	cat >\$APT_CONFDIR\/00InstallRecommends <<EOT$/!b
-        n
-        s/^\(APT::Install-Recommends "\)false\(";\)$/\1true\2/'
-
 ## Patch old (up to 1.0.114 found in Debian GNU/Linux 10 (buster))
 ## debootstrap(8) to also apply excludes to required packages.
 
