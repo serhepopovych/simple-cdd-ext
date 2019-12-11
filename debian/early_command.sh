@@ -133,6 +133,8 @@ if ! ethdetect || ! [ -n "$(lsifaces)" ]; then\
     # Disable network entirely if ethernet card detection fails\
     . /usr/share/debconf/confmodule\
     db_set netcfg/enable false\
+    # Make sure at least system loopback (lo) is up\
+    ip link set dev lo up ||:\
 fi,'
 
     keep
@@ -154,6 +156,8 @@ if ! netcfg || ! [ -n "$(lsaddrs)" ]; then\
     # Disable network entirely if no global address found\
     . /usr/share/debconf/confmodule\
     db_set netcfg/enable false\
+    # Make sure at least system loopback (lo) is up\
+    ip link set dev lo up ||:\
 fi,'
     keep
     exit
