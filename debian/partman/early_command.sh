@@ -79,7 +79,7 @@ done
 ## to http://${apt-setup/security_host} URL when necessary (wheezy, jessie).
 
 sed -i '/usr/lib/apt-setup/generators/91security' \
-    -e 's,\(\(^\|\s\+\)echo\s\+"\S\+\)\(\s*http://\${host}\)/*\(\s\+\|"\),\1\3/debian-security\4,'
+    -e 's,\(\(^\|\s\+\)echo\s\+"\S\+\)\(\s*http://\$host\)/*\(\s\+\|"\),\1\3/debian-security\4,'
 
 ## Process *.excludes
 
