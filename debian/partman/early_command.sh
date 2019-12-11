@@ -93,5 +93,25 @@ val="$(
 
 debconf-set 'base-installer/excludes' "$val"
 
+## Process *.pkgsel
+
+val="$(debconf-get 'pkgsel/include')"
+
+val="$(
+{
+    echo "$val" | tr ' ' '\n'
+    for p in $SIMPLE_CDD_PROFILES; do
+        f="$SIMPLE_CDD_DIR/$p.pkgsel"
+
+        # Skip non-existing and empty files
+        [ -s "$f" ] || continue
+
+        sed -n -e '/^\s*\(#\|$\)/!p' "$f"
+    done
+} | sort -u | tr '\n' ' '
+)"
+
+debconf-set 'pkgsel/include' "$val"
+
 # Executed from partman/early_command; now start partman
 exec "$SIMPLE_CDD_DISTRO_DIR/partman/run.sh"
