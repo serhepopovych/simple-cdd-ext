@@ -80,7 +80,7 @@ val="$(debconf-get 'base-installer/excludes')"
 val="$(
 {
     echo "$val" | tr ' ' '\n'
-    for p in $SIMPLE_CDD_PROFILES; do
+    for_each_profile | while read p; do
         f="$SIMPLE_CDD_DIR/$p.excludes"
 
         # Skip non-existing and empty files
@@ -100,7 +100,7 @@ val="$(debconf-get 'pkgsel/include')"
 val="$(
 {
     echo "$val" | tr ' ' '\n'
-    for p in $SIMPLE_CDD_PROFILES; do
+    for_each_profile | while read p; do
         f="$SIMPLE_CDD_DIR/$p.pkgsel"
 
         # Skip non-existing and empty files

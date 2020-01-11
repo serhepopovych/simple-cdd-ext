@@ -100,8 +100,7 @@ fi
 ## Determine simple-cdd profiles (make sure default profile is first)
 
 SIMPLE_CDD_PROFILES="$(get_cmdline_var 'simple-cdd/profiles' 'default' ',')"
-SIMPLE_CDD_PROFILES="$(subst "$SIMPLE_CDD_PROFILES," 'default,')"
-SIMPLE_CDD_PROFILES="$(echo "default,${SIMPLE_CDD_PROFILES%,}" | tr ',' ' ')"
+SIMPLE_CDD_PROFILES="$(profiles_csv "$SIMPLE_CDD_PROFILES")"
 
 ## Prepare environment file for common/bootstrap.sh
 
@@ -130,7 +129,7 @@ EOF
 f='simple-cdd.templates'
 do_fetch "$SIMPLE_CDD_URL_BASE/$f" '' -q -O "$SIMPLE_CDD_DIR/$f"
 
-for p in $SIMPLE_CDD_PROFILES; do
+for_each_profile | while read p; do
     # Extra (includes all simple-cdd scripts)
     f="$p.extra"
     if  do_fetch "$SIMPLE_CDD_URL_BASE/$f" '' -q -O "$SIMPLE_CDD_DIR/$f"; then

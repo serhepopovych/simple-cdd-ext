@@ -108,6 +108,65 @@ get_cmdline_var()
     echo "$val"
 }
 
+# Usage: profiles_list [<profile|csv_profiles> ...]
+profiles_list()
+{
+    if [ -z "${ifs_pl+x}" ]; then
+        local ifs_pl="$IFS"
+        IFS=','
+        set -- $*
+        # Get rid of ,, (empty profile names). Note that IFS='' is not portable.
+        IFS='
+'
+        profiles_list $@
+    else
+        IFS=','
+        local profiles="$*"
+        IFS="$ifs_pl"
+
+        profiles="$(subst "$profiles," 'default,')"
+        profiles="${profiles%,}"
+        profiles="default${profiles:+,$profiles}"
+
+        IFS=','
+        local p=''
+        for profiles in $profiles; do
+            p="${p:+$p }'$profiles'"
+        done
+        IFS="$ifs_pl"
+
+        echo "$p"
+    fi
+}
+
+# Usage: profiles_csv [<profile|csv_profiles> ...]
+profiles_csv()
+{
+    eval set -- $(profiles_list "$@")
+
+    local ifs="$IFS"
+    IFS=','
+    echo "$*"
+    IFS="$ifs"
+}
+
+# Usage: for_each_profile [<cb>] [<profile|csv_profiles> ...]
+for_each_profile()
+{
+    local fep_cb='echo'
+    if [ $# -gt 0 ]; then
+        [ -z "$1" ] || fep_cb="$1"
+        shift
+    fi
+    [ $# -gt 0 ] || set -- "$SIMPLE_CDD_PROFILES"
+
+    eval "set -- $(profiles_list "$@")"
+    while [ $# -gt 0 ]; do
+       "$fep_cb" "$1"
+       shift
+    done
+}
+
 # Usage: split_url <url>
 split_url()
 {
@@ -152,10 +211,11 @@ read_profiles_conf()
 
         cd "$SIMPLE_CDD_DIR"
 
-        local p
-        for p in $SIMPLE_CDD_PROFILES; do
-            read_profiles_conf__include "$p.conf"
-        done
+        read_profiles_conf__cb()
+        {
+            read_profiles_conf__include "$1.conf"
+        }
+        for_each_profile 'read_profiles_conf__cb'
 
         local cb="$1"
         shift
