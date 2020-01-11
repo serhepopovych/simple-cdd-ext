@@ -169,7 +169,7 @@ done
 
 ## Cleanup environment
 
-unset p f b e
+unset p f b e t
 
 ## Source distro-specific init2.sh
 
