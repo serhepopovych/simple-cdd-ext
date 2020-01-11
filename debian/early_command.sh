@@ -10,7 +10,7 @@
 
 ## Helpers and initialization
 
-# Usage: set_selections_add <file> <opt> <dflt_val>
+# Usage: set_selections_add <file> <opt> <dflt_val> [get_cmdline_var:$sep,$file]
 set_selections_add()
 {
     local func="${FUNCNAME:-set_selections_add}"
@@ -18,8 +18,9 @@ set_selections_add()
     local file="${1:?missing 1st arg to ${func}() <file>}"
     local opt="${2:?missing 2d arg to ${func}() <opt>}"
     local val="${3:?missing 3rd arg to ${func}() <dflt_val>}"
+    shift 3
 
-    val="$(get_cmdline_var "$opt" "$val")"
+    val="$(get_cmdline_var "$opt" "$val" "$@")"
 
     echo "d-i $opt string $val" >>"$file"
 }
