@@ -33,9 +33,11 @@ f='/tmp/.simple-cdd-early_command.sh-preseed'
 
 ## Preseed mirrors based either on command line options or on profile configs
 
-# Usage: read_profiles_conf_cb__mirrors ...
+# Usage: read_profiles_conf_cb__mirrors <profile|> ...
 read_profiles_conf_cb__mirrors()
 {
+    [ -z "${1+x}" ] || return 0
+
     local method host dir
 
     eval "$(split_url "$debian_mirror")"

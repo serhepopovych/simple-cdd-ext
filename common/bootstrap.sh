@@ -200,33 +200,35 @@ split_url()
 read_profiles_conf()
 {
     if [ -n "${__in_installer_env__+x}" ]; then
+        local cb="$1"
+        shift
+
         # Protect against of "$@" modification by "set" by foregin code
         read_profiles_conf__include()
         {
             local p="./$1"
-            if [ -r "$p" ]; then
-                set -- && . "$p"
-            fi
+
+            [ -r "$p" ] || return
+
+            local cb
+            set -- && . "$p" || exit
         }
 
         cd "$SIMPLE_CDD_DIR"
 
         read_profiles_conf__cb()
         {
-            read_profiles_conf__include "$1.conf"
+            read_profiles_conf__include "$1.conf" && "$cb" "$1" ||:
         }
         for_each_profile 'read_profiles_conf__cb'
 
-        local cb="$1"
-        shift
-
-        "$cb" "$@"
+        "$cb"
     else
         local func="${FUNCNAME:-read_profiles_conf}"
 
         local cb="${1:?missing 1st arg to ${func}() <cb>}"
 
-        eval "$(__in_installer_env__=1 && read_profiles_conf "$@")"
+        eval "$(__in_installer_env__=1 && read_profiles_conf "$1")"
     fi
 }
 
