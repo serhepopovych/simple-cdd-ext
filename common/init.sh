@@ -102,6 +102,35 @@ fi
 SIMPLE_CDD_PROFILES="$(get_cmdline_var 'simple-cdd/profiles' 'default' ',')"
 SIMPLE_CDD_PROFILES="$(profiles_csv "$SIMPLE_CDD_PROFILES")"
 
+for_each_profile | while read p; do
+    f="$p.conf"
+    do_fetch "$SIMPLE_CDD_URL_BASE/$f" '' -q -O "$SIMPLE_CDD_DIR/$f" ||:
+done
+
+# Usage: read_profiles_conf_cb__auto_profiles <profile|> ...
+read_profiles_conf_cb__auto_profiles()
+{
+    if [ -n "${1+x}" ]; then
+        # Must be defined by distro specific profile (e.g. distro/debian.conf)
+        profile_append 'auto_profiles' "$1"
+    else
+        echo "SIMPLE_CDD_PROFILES='$(profiles_csv "$auto_profiles")'"
+    fi
+}
+
+read_profiles_conf 'read_profiles_conf_cb__auto_profiles'
+
+# Remove unused profiles config files to keep space clean
+p=",$SIMPLE_CDD_PROFILES,"
+for f in "$SIMPLE_CDD_DIR"/*.conf; do
+    [ -e "$f" ] || continue
+
+    t="${f##*/}" && t="${t%.conf}"
+    if [ -n "${p##*,$t,*}" ]; then
+        rm -f "$f" ||:
+    fi
+done
+
 ## Prepare environment file for common/bootstrap.sh
 
 cat >"$e" <<EOF
@@ -153,7 +182,6 @@ for_each_profile | while read p; do
 
     # Other files
     for f in \
-        'conf' \
         'downloads' \
         'excludes' \
         'packages' \

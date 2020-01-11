@@ -31,6 +31,12 @@ f='/tmp/.simple-cdd-early_command.sh-preseed'
 # it on failure to have information for debugging.
 : >"$f"
 
+## Preseed simple-cdd/profiles with $SIMPLE_CDD_PROFILES as it might differ
+
+set_selections_add \
+    "$f" 'simple-cdd/profiles' "$SIMPLE_CDD_PROFILES" \
+    '' '/dev/null'
+
 ## Preseed mirrors based either on command line options or on profile configs
 
 # Usage: read_profiles_conf_cb__mirrors <profile|> ...
