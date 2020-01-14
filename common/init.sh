@@ -111,7 +111,7 @@ done
 read_profiles_conf_cb__auto_profiles()
 {
     if [ -n "${1+x}" ]; then
-        # Must be defined by distro specific profile (e.g. distro/debian.conf)
+        # Must be defined by distro specific profile (i.e. distro.conf)
         profile_append 'auto_profiles' "$1"
     else
         echo "SIMPLE_CDD_PROFILES='$(profiles_csv "$auto_profiles")'"
