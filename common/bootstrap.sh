@@ -124,9 +124,11 @@ profiles_list()
         local profiles="$*"
         IFS="$ifs_pl"
 
-        profiles="$(subst "$profiles," 'default,')"
+        profiles="$(subst "${profiles%,}," 'default,')"
+        profiles="$(subst "${profiles%,}," 'distro,')"
+        profiles="$(subst "${profiles%,}," 'release,')"
         profiles="${profiles%,}"
-        profiles="default${profiles:+,$profiles}"
+        profiles="default,distro,release${profiles:+,$profiles}"
 
         IFS=','
         local p=''
