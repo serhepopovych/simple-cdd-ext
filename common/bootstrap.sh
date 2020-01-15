@@ -231,7 +231,7 @@ read_profiles_conf()
         local cb="${1:?missing 1st arg to ${func}() <cb>}"
         local out
 
-        out="$(__in_installer_env__=1 && read_profiles_conf "$1")"
+        out="$(set +e && __in_installer_env__=1 && read_profiles_conf "$1")"
         eval "$out"
     fi
 }
