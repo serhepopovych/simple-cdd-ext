@@ -220,7 +220,7 @@ read_profiles_conf()
 
         read_profiles_conf__cb()
         {
-            read_profiles_conf__include "$1.conf" && "$cb" "$1" ||:
+            read_profiles_conf__include "$1.conf" && "$cb" "$profile" ||:
         }
         for_each_profile 'read_profiles_conf__cb'
 

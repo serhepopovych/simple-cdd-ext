@@ -107,7 +107,7 @@ for_each_profile | while read p; do
     do_fetch "$SIMPLE_CDD_URL_BASE/$f" '' -q -O "$SIMPLE_CDD_DIR/$f" ||:
 done
 
-# Usage: read_profiles_conf_cb__auto_profiles <profile|> ...
+# Usage: read_profiles_conf_cb__auto_profiles <profile> ...
 read_profiles_conf_cb__auto_profiles()
 {
     if [ -n "${1+x}" ]; then
