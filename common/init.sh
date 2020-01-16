@@ -44,7 +44,7 @@ do_fetch()
     if [ -z "${src##*://*}" ]; then
         wget "$@" "$src" || rc=$?
     else
-        cat "$src" >"$dst" 2>"$quiet" || rc=$?
+        { cat "$src" >"$dst"; } 2>"$quiet" || rc=$?
     fi
 
     if [ $rc -eq 0 ]; then
@@ -127,7 +127,7 @@ for f in "$SIMPLE_CDD_DIR"/*.conf; do
 
     t="${f##*/}" && t="${t%.conf}"
     if [ -n "${p##*,$t,*}" ]; then
-        rm -f "$f" ||:
+        rm -f "$f" 2>/dev/null ||:
     fi
 done
 

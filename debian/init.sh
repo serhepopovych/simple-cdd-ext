@@ -155,7 +155,7 @@ if [ ! "$url" -ef "$f" ]; then
     if [ -n "$SIMPLE_CDD_URL_METHOD" ]; then
         wget -q -O "$f" "$url" || rc=$?
     else
-        cat "$url" >"$f" || rc=$?
+        { cat "$url" >"$f"; } 2>/dev/null || rc=$?
     fi
 
     if [ $rc -ne 0 ]; then
