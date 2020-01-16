@@ -62,8 +62,9 @@ do_fetch()
 # It is expected that at least following variables defined:
 #
 #   SIMPLE_CDD_URL_BASE   - directory containing root of simple-cdd tree
-#   SIMPLE_CDD_URL_METHOD - method to fetch from URL base: (e.g. http, ftp
-#                           or empty for local CD/DVD)
+#                           or empty for root (/) filesystem path
+#   SIMPLE_CDD_URL_METHOD - method to fetch from URL base: http, ftp
+#                           or empty for local CD/DVD
 #   SIMPLE_CDD_DIR        - absolute path to root of simple-cdd tree in
 #                           installation environment
 #   SIMPLE_CDD_DISTRO     - distribution name (e.g. debian, centos, ...)

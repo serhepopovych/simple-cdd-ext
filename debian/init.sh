@@ -72,9 +72,11 @@ get_url_base()
         cmp -s "$this" /dev/stdin || return
     fi
 
-    # Make sure we always end with '/' to catch
-    # cases like "/preseed.txt" or "http://"
-    echo "${url%/*}/"
+    # Make sure we end with '/' to catch cases like "http://"
+    url="${url%/*}"
+    [ -z "$url" -o -n "${url#*:/}" ] || url="$url/"
+
+    echo "$url"
 }
 
 # Usage: get_url_method <url>

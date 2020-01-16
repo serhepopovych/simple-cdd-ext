@@ -44,7 +44,7 @@ __find_src()
     done
 
     if [ -z "$src" ]; then
-        src="$SIMPLE_CDD_URL_BASE"
+        src="${SIMPLE_CDD_URL_BASE:-/}"
     fi
 
     # Bailout with /dev/null
