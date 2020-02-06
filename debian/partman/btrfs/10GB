@@ -23,6 +23,6 @@ simple-cdd/partman/btrfs/10GB ::
     options/compress{ compress }
     options/noatime{ noatime }
   .
-  1 10000 -1 $default_filesystem
+  1 1 -1 ext2
     method{ keep }
   .

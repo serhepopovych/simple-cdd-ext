@@ -18,6 +18,6 @@ simple-cdd/partman/btrfs/3GB ::
     options/compress{ compress }
     options/noatime{ noatime }
   .
-  1 3000 -1 $default_filesystem
+  1 1 -1 free
     method{ keep }
   .

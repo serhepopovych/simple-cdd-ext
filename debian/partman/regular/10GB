@@ -34,6 +34,6 @@ simple-cdd/partman/regular/10GB ::
   1024 4096 4096 linux-swap
     method{ swap } format{ } label{ SWAP }
   .
-  128 12800000 -1 $default_filesystem
+  1 1 -1 ext2
     method{ keep }
   .
