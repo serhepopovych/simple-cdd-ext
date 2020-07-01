@@ -1,0 +1,28 @@
+simple-cdd/partman/btrfs/8GB ::
+  1 1 1 free
+    $iflabel{ gpt }
+    $reusemethod{ }
+    method{ biosgrub }
+  .
+  256 256 256 fat32
+    $iflabel{ gpt }
+    $reusemethod{ }
+    method{ efi } format{ }
+    mountpoint{ /boot/efi }
+  .
+  256 256 256 ext2
+    method{ format } format{ }
+    use_filesystem{ } filesystem{ ext2 }
+    mountpoint{ /boot }
+  .
+  7168 15360 15360 btrfs
+    method{ format } format{ }
+    use_filesystem{ } filesystem{ btrfs }
+    mountpoint{ / }
+    options/subvol=root{ subvol=root }
+    options/compress{ compress }
+    options/noatime{ noatime }
+  .
+  1 1 -1 ext2
+    method{ keep }
+  .
