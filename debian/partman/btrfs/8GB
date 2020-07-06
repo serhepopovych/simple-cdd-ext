@@ -20,7 +20,6 @@ simple-cdd/partman/btrfs/8GB ::
     use_filesystem{ } filesystem{ btrfs }
     mountpoint{ / }
     options/subvol=root{ subvol=root }
-    options/compress{ compress }
     options/noatime{ noatime }
   .
   1 1 -1 ext2
