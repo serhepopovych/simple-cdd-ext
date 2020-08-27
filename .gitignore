@@ -17,3 +17,6 @@ Sessionx.vim
 tags
 # Persistent undo
 [._]*.un~
+
+# Symlink to distro specific init.sh
+init.sh
