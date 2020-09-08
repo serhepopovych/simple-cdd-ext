@@ -18,6 +18,6 @@ simple-cdd/partman/btrfs/2GB ::
     options/compress{ compress }
     options/noatime{ noatime }
   .
-  1 1 -1 ext2
+  1 1 -1 free
     method{ keep }
   .

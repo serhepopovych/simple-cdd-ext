@@ -42,7 +42,7 @@ simple-cdd/partman/lvm/50GB ::
     mountpoint{ /home }
     lv_name{ home }
   .
-  128 128 -1 ext2
+  128 128 -1 free
     $lvmok{ }
     method{ keep }
     lv_name{ placeholder }

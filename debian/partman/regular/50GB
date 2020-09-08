@@ -34,6 +34,6 @@ simple-cdd/partman/regular/50GB ::
     use_filesystem{ } $default_filesystem{ }
     mountpoint{ /home }
   .
-  1 1 -1 ext2
+  1 1 -1 free
     method{ keep }
   .

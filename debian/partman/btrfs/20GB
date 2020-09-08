@@ -25,6 +25,6 @@ simple-cdd/partman/btrfs/20GB ::
   4096 100% 4096+%50 linux-swap
     method{ swap } format{ }
   .
-  1 1 -1 ext2
+  1 1 -1 free
     method{ keep }
   .

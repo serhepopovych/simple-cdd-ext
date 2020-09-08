@@ -22,6 +22,6 @@ simple-cdd/partman/btrfs/8GB ::
     options/subvol=root{ subvol=root }
     options/noatime{ noatime }
   .
-  1 1 -1 ext2
+  1 1 -1 free
     method{ keep }
   .
