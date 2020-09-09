@@ -12,7 +12,7 @@ simple-cdd/partman/lvm/50GB ::
   .
   1024 1024 1024 ext2
     $defaultignore{ }
-    method{ format } format{ }
+    method{ format } format{ } label{ BOOT }
     use_filesystem{ } filesystem{ ext2 }
     mountpoint{ /boot }
   .
