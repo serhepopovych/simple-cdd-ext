@@ -11,7 +11,6 @@ simple-cdd/partman/regular/10GB ::
     mountpoint{ /boot/efi }
   .
   256 256 256 ext2
-    $defaultignore{ }
     method{ format } format{ } label{ BOOT }
     use_filesystem{ } filesystem{ ext2 }
     mountpoint{ /boot }
