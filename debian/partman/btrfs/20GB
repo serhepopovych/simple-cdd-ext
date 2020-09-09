@@ -16,7 +16,7 @@ simple-cdd/partman/btrfs/20GB ::
     mountpoint{ /boot }
   .
   12288 20480 20480 btrfs
-    method{ format } format{ }
+    method{ format } format{ } label{ ROOT }
     use_filesystem{ } filesystem{ btrfs }
     mountpoint{ / }
     options/subvol=root{ subvol=root }

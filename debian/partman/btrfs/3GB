@@ -11,7 +11,7 @@ simple-cdd/partman/btrfs/3GB ::
     mountpoint{ /boot/efi }
   .
   2640 5000 5000 btrfs
-    method{ format } format{ }
+    method{ format } format{ } label{ ROOT }
     use_filesystem{ } filesystem{ btrfs }
     mountpoint{ / }
     options/subvol=root{ subvol=root }
