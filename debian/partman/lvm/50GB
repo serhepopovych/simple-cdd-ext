@@ -16,26 +16,26 @@ simple-cdd/partman/lvm/50GB ::
     use_filesystem{ } filesystem{ ext2 }
     mountpoint{ /boot }
   .
-  8192 200% 200% linux-swap
+  8192 8192 8192 linux-swap
     $lvmok{ }
     method{ swap } format{ } label{ SWAP }
     lv_name{ swap }
   .
-  20480 25600 25600 $default_filesystem
+  20480 20480 20480 $default_filesystem
     $lvmok{ }
     method{ format } format{ } label{ ROOT }
     use_filesystem{ } $default_filesystem{ }
     mountpoint{ / }
     lv_name{ root }
   .
-  5120 10240 10240 $default_filesystem
+  5120 5120 5120 $default_filesystem
     $lvmok{ }
     method{ format } format{ } label{ VAR }
     use_filesystem{ } $default_filesystem{ }
     mountpoint{ /var }
     lv_name{ var }
   .
-  10240 20480 20480 $default_filesystem
+  12288 12288 12288 $default_filesystem
     $lvmok{ }
     method{ format } format{ } label{ HOME }
     use_filesystem{ } $default_filesystem{ }

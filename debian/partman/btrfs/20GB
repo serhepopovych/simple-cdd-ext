@@ -15,15 +15,15 @@ simple-cdd/partman/btrfs/20GB ::
     use_filesystem{ } filesystem{ ext2 }
     mountpoint{ /boot }
   .
-  12288 20480 20480 btrfs
+  4096 4096 4096 linux-swap
+    method{ swap } format{ }
+  .
+  14336 14336 14336 btrfs
     method{ format } format{ } label{ ROOT }
     use_filesystem{ } filesystem{ btrfs }
     mountpoint{ / }
     options/subvol=root{ subvol=root }
     options/noatime{ noatime }
-  .
-  4096 100% 4096+%50 linux-swap
-    method{ swap } format{ }
   .
   1 1 -1 free
     method{ keep }

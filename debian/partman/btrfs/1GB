@@ -10,7 +10,7 @@ simple-cdd/partman/btrfs/1GB ::
     method{ efi } format{ }
     mountpoint{ /boot/efi }
   .
-  812 1000 2000 btrfs
+  812 812 812 btrfs
     method{ format } format{ } label{ ROOT }
     use_filesystem{ } filesystem{ btrfs }
     mountpoint{ / }

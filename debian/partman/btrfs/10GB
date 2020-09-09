@@ -15,7 +15,7 @@ simple-cdd/partman/btrfs/10GB ::
     use_filesystem{ } filesystem{ ext2 }
     mountpoint{ /boot }
   .
-  8192 20000 20000 btrfs
+  8192 8192 8192 btrfs
     method{ format } format{ } label{ ROOT }
     use_filesystem{ } filesystem{ btrfs }
     mountpoint{ / }
