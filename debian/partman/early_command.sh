@@ -73,6 +73,19 @@ done
 sed -i '/usr/lib/apt-setup/generators/91security' \
     -e 's,\(\(^\|\s\+\)echo\s\+"\S\+\)\(\s*http://\$host\)/*\(\s\+\|"\),\1\3/debian-security\4,'
 
+## Patch /usr/lib/finish-install.d/55netcfg-copy-config to apply change
+## from netcfg_1.119 that closes Debian bug #709017.
+
+sed -i '/usr/lib/finish-install.d/55netcfg-copy-config' \
+    -e '/^# .\+ Note: there'\''s nothing particular to$/,/^cp \$FILE_INTERFACES / c\
+case $RET in\
+    $CONFIG_NM|$CONFIG_LOOPBACK)\
+	# Copy /etc/network/interfaces to target.\
+	mkdir -p /target$(dirname $FILE_INTERFACES)\
+	cp $FILE_INTERFACES /target$FILE_INTERFACES\
+	;;\
+esac'
+
 ## Process *.excludes
 
 val="$(debconf-get 'base-installer/excludes')"
