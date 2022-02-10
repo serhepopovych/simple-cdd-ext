@@ -14,7 +14,6 @@ simple-cdd/partman/btrfs/2GB ::
     method{ format } format{ } label{ ROOT }
     use_filesystem{ } filesystem{ btrfs }
     mountpoint{ / }
-    options/subvol=root{ subvol=root }
     options/compress{ compress }
     options/noatime{ noatime }
   .

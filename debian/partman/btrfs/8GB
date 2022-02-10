@@ -19,7 +19,6 @@ simple-cdd/partman/btrfs/8GB ::
     method{ format } format{ } label{ ROOT }
     use_filesystem{ } filesystem{ btrfs }
     mountpoint{ / }
-    options/subvol=root{ subvol=root }
     options/noatime{ noatime }
   .
   1 1 -1 free
